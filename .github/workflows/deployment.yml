@@ -12,8 +12,8 @@ jobs:
       - name: Checkout the frontend repository
         uses: actions/checkout@v3
 
-      - name: Set up Docker
-        uses: docker/setup-buildx-action@v2
+      # - name: Set up Docker
+      #   uses: docker/setup-buildx-action@v2
 
       - name: Build Docker image with docker build
         run: |
