@@ -28,10 +28,10 @@ jobs:
           docker save conduit-frontend:latest -o conduit-frontend-image.tar
 
       - name: SCP Docker image to the server
-        uses: appleboy/scp-action@v0.1.9
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SSH_USER }}
+          username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: conduit-frontend-image.tar
           target: ${{ vars.IMAGE_PATH }}
@@ -40,7 +40,7 @@ jobs:
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SSH_USER }}
+          username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ${{ vars.IMAGE_PATH }}
