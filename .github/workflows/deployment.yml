@@ -27,6 +27,9 @@ jobs:
         run: |
           docker save conduit-frontend:latest -o conduit-frontend-image.tar
 
+      - name: Check file permissions
+        run: ls -l conduit-backend-image.tar
+
       - name: SCP Docker image to the server
         uses: appleboy/scp-action@v0.1.7
         with:
