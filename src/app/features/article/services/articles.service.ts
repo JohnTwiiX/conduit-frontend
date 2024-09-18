@@ -7,7 +7,7 @@ import { Article } from "../models/article.model";
 
 @Injectable({ providedIn: "root" })
 export class ArticlesService {
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient) { }
 
   query(
     config: ArticleListConfig,
@@ -38,7 +38,7 @@ export class ArticlesService {
 
   create(article: Partial<Article>): Observable<Article> {
     return this.http
-      .post<{ article: Article }>("/articles/", { article: article })
+      .post<{ article: Article }>("/articles", { article: article })
       .pipe(map((data) => data.article));
   }
 
