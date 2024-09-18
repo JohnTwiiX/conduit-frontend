@@ -20,8 +20,8 @@ jobs:
           docker build \
             --build-arg API_URL=${{ vars.API_URL }} \
             -t conduit-frontend:latest \
-            -f ./conduit-frontend/Dockerfile \
-            ./conduit-frontend
+            -f ./Dockerfile \
+            .
 
       - name: Save Docker image as tarball
         run: |
