@@ -27,6 +27,9 @@ jobs:
         run: |
           docker save conduit-frontend:latest -o conduit-frontend-image.tar
 
+      - name: Adjust file permissions
+        run: chmod 644 conduit-frontend-image.tar
+
       - name: Check file permissions
         run: ls -l conduit-frontend-image.tar
 
