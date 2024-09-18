@@ -1,0 +1,51 @@
+name: Frontend Deployment
+
+on:
+  repository_dispatch:
+    types: [trigger-frontend-build]
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the frontend repository
+        uses: actions/checkout@v3
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker image with docker build
+        run: |
+          docker build \
+            --build-arg API_URL=${{ vars.API_URL }} \
+            -t conduit-frontend:latest \
+            -f ./conduit-frontend/Dockerfile \
+            ./conduit-frontend
+
+      - name: Save Docker image as tarball
+        run: |
+          docker save conduit-frontend:latest -o conduit-frontend-image.tar
+
+      - name: SCP Docker image to the server
+        uses: appleboy/scp-action@v0.1.9
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: conduit-frontend-image.tar
+          target: ${{ vars.IMAGE_PATH }}
+
+      - name: SSH into server and restart frontend container
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ${{ vars.IMAGE_PATH }}
+            docker load -i conduit-frontend-image.tar
+            docker stop conduit-frontend || true
+            docker rm conduit-frontend || true
+            docker run -d --name conduit-frontend -p 8084:80 conduit-frontend:latest
+            rm -f conduit-frontend-image.tar  # Optional cleanup
