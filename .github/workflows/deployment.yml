@@ -3,6 +3,9 @@ name: Frontend Deployment
 on:
   repository_dispatch:
     types: [trigger-frontend-build]
+  push:
+    branches:
+      - master
 
 jobs:
   build_and_deploy:
@@ -50,6 +53,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ${{ vars.IMAGE_PATH }}
+            docker image rm -f conduit-frontend:latest
             docker load -i conduit-frontend-image.tar
             docker stop conduit-frontend || true
             docker rm conduit-frontend || true
