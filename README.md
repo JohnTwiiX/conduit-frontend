@@ -69,6 +69,25 @@ The example application is a social blogging site (i.e. a Medium.com clone) call
   - Show basic user info
   - List of articles populated from author's created articles or author's favorited articles
 
+## Automation
+
+This project has a workflow that builds the Docker images, connects to the server, uploads the image, and stops and starts the Docker container.
+
+1. set Github secrets and variables
+
+   - go to `setting -> security -> Secrets and variables -> actions`
+
+     | Variable                    | description                              | secret/variable |
+     | --------------------------- | ---------------------------------------- | --------------- |
+     | `API_URL`                   | the url for the backend                  | variable        |
+     | `IMAGE_PATH`                | the path to the images                   | variable        |
+     | `SERVER_IP`                 | the ip of your server                    | secret          |
+     | `SSH_PRIVATE_KEY`           | the ssh private key to connect to server | secret          |
+     | `USER`                      | the user on the server                   | secret          |
+
+1. when you push to your main branch, this action will be triggered and triggered from the main repo
+
+
 <br />
 
 [![Brought to you by Thinkster](https://raw.githubusercontent.com/gothinkster/realworld/master/media/end.png)](https://thinkster.io)
