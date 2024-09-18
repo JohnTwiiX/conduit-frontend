@@ -17,7 +17,8 @@ jobs:
 
       - name: Build Docker image with docker build
         run: |
-          docker build --build-arg API_URL=${{ vars.API_URL }} \
+          docker build \
+            --build-arg API_URL=${{ vars.API_URL }} \
             -t conduit-frontend:latest \
             -f ./Dockerfile \
             .
