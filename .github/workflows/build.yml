@@ -51,4 +51,4 @@ jobs:
           repository: JohnTwiiX/Conduit_Container
           token: ${{ secrets.PAT }}
           event-type: trigger-deploy
-          client-payload: '{"service_name": "frontend"}'
+          client-payload: '{"service_name": "conduit-frontend"}'
